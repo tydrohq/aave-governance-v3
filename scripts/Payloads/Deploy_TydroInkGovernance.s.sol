@@ -24,7 +24,7 @@ contract TydroInkBitwise is Script {
     address public constant PROXY_FACTORY = 0xEB0682d148e874553008730f0686ea89db7DA412;
     // TODO: Super Admin = payloadsManager, proposes payloads (Bitwise Safe 4/8, Tydro as proposer)
     address public constant SUPER_ADMIN = address(0);
-    // TODO: controller guardian, cancels queued payloads
+    // TODO: Guardian Safe = controller guardian, cancels queued payloads (1/2, nested Bitwise + Tydro Safes)
     address public constant GUARDIAN = address(0);
     uint40 public constant DELAY = 24 hours;
 
