@@ -22,15 +22,16 @@ import {
 contract TydroInkBitwise is Script {
     // BGD TransparentProxyFactory on Ink mainnet (aave-address-book GovernanceV3Ink)
     address public constant PROXY_FACTORY = 0xEB0682d148e874553008730f0686ea89db7DA412;
-    // TODO: Super Admin = payloadsManager, proposes payloads (Bitwise Safe 4/8, Tydro as proposer)
+    // TODO: Super Admin Safe (Bitwise 4/8, Tydro as proposer). Set as both:
+    // - payloadsManager: creates payloads, and can always cancel them
+    // - guardian of the governance (controller guardian, not the market's EMERGENCY_ADMIN): can only
+    //   cancel queued payloads and hand this role to another address (updateGuardian)
     address public constant SUPER_ADMIN = address(0);
-    // TODO: Guardian Safe = controller guardian, cancels queued payloads (1/2, nested Bitwise + Tydro Safes)
-    address public constant GUARDIAN = address(0);
     uint40 public constant DELAY = 24 hours;
 
     function run() external {
         require(block.chainid == 57073, "not Ink");
-        require(SUPER_ADMIN != address(0) && GUARDIAN != address(0), "placeholder role");
+        require(SUPER_ADMIN != address(0), "placeholder role");
 
         vm.startBroadcast();
 
@@ -51,9 +52,9 @@ contract TydroInkBitwise is Script {
                 abi.encodeWithSelector(
                     PermissionedPayloadsController.initialize.selector,
                     executor, // owner
-                    GUARDIAN,
-                    SUPER_ADMIN, // payloadsManager
-                    executors
+                    SUPER_ADMIN, // guardian of the governance: cancels queued payloads
+                    SUPER_ADMIN, // payloadsManager: creates payloads (and can cancel them)
+                    executors // Level_1: Executor + 24h delay
                 )
             );
 
@@ -64,7 +65,7 @@ contract TydroInkBitwise is Script {
         // post-conditions
         PermissionedPayloadsController c = PermissionedPayloadsController(payable(controller));
         require(c.owner() == executor, "controller owner");
-        require(c.guardian() == GUARDIAN, "controller guardian");
+        require(c.guardian() == SUPER_ADMIN, "controller guardian");
         require(c.payloadsManager() == SUPER_ADMIN, "payloadsManager");
         IPayloadsControllerCore.ExecutorConfig memory cfg =
             c.getExecutorSettingsByAccessControl(PayloadsControllerUtils.AccessControl.Level_1);
