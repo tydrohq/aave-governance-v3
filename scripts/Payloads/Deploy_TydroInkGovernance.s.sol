@@ -15,7 +15,7 @@ import {
 
 /**
  * @notice Bitwise pool on Ink mainnet: Executor + PermissionedPayloadsController in one run.
- * @dev Standalone: the upstream script calls initialize without the owner argument.
+ * @dev Replaces the outdated Deploy_PermissionedPayloadsController.s.sol (missing the initialize owner argument).
  * 4 txs: Executor, controller impl, controller proxy (initialized), Executor.transferOwnership(controller).
  */
 contract TydroInkBitwise is Script {
