@@ -58,6 +58,9 @@ contract TydroInkBitwise is Script {
                 )
             );
 
+        // Circular ownership, by design: the controller owns the Executor (only the controller can make it
+        // execute payloads) and the Executor owns the controller (controller changes go through a payload).
+        // Same setup as Tydro on Ink mainnet (Executor 0x1dF4…053D <-> controller 0x1dE9…3b7A).
         Ownable(executor).transferOwnership(controller);
 
         vm.stopBroadcast();
