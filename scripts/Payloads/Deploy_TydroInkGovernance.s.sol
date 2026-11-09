@@ -19,7 +19,7 @@ import {
  * 4 txs: Executor, controller impl, controller proxy (initialized), Executor.transferOwnership(controller).
  */
 contract TydroInkBitwise is Script {
-    // BGD TransparentProxyFactory on Ink mainnet (aave-address-book GovernanceV3Ink)
+    // TransparentProxyFactory already deployed on Ink mainnet (aave-address-book GovernanceV3Ink)
     address public constant PROXY_FACTORY = 0xEB0682d148e874553008730f0686ea89db7DA412;
     // TODO: Super Admin Safe (Bitwise 4/8, Tydro as proposer). Set as both:
     // - payloadsManager: creates payloads, and can always cancel them
