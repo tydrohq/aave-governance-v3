@@ -35,6 +35,7 @@ contract TydroInkBitwise is Script {
         vm.startBroadcast();
 
         address executor = address(new Executor());
+        // impl keeps the deployer as owner/guardian/payloadsManager: unused, the proxy has its own storage
         address controllerImpl = address(new PermissionedPayloadsController());
 
         IPayloadsControllerCore.UpdateExecutorInput[] memory executors =
