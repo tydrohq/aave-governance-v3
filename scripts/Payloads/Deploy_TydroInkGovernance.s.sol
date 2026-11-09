@@ -15,8 +15,7 @@ import {
 
 /**
  * @notice Bitwise pool on Ink mainnet: Executor + PermissionedPayloadsController in one run.
- * @dev Standalone: same script as our Ink Sepolia pools (GovBaseScript does not support Ink Sepolia).
- * Fixes the upstream script, which calls initialize without the owner argument.
+ * @dev Standalone: the upstream script calls initialize without the owner argument.
  * 4 txs: Executor, controller impl, controller proxy (initialized), Executor.transferOwnership(controller).
  */
 contract TydroInkBitwise is Script {
