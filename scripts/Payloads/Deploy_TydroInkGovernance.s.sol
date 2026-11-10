@@ -21,11 +21,11 @@ import {
 contract TydroInkBitwise is Script {
     // TransparentProxyFactory already deployed on Ink mainnet (aave-address-book GovernanceV3Ink)
     address public constant PROXY_FACTORY = 0xEB0682d148e874553008730f0686ea89db7DA412;
-    // TODO: Super Admin Safe (Bitwise 4/8, Tydro as proposer). Set as both:
+    // Super Admin Safe (Bitwise, Tydro as proposer). Set as both:
     // - payloadsManager: creates payloads, and can always cancel them
     // - guardian of the governance (controller guardian, not the market's EMERGENCY_ADMIN): can only
     //   cancel queued payloads and hand this role to another address (updateGuardian)
-    address public constant SUPER_ADMIN = address(0);
+    address public constant SUPER_ADMIN = 0x663406FFAC48b15e5A46Edf154Dd7e471cB0C2B9;
     uint40 public constant DELAY = 24 hours;
 
     function run() external {
